@@ -43,7 +43,6 @@ def test_4():
 
 
 def num5():
-    print('!!!!!!!!')
     test_1()
     test_2()
     test_3()

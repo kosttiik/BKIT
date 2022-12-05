@@ -8,7 +8,7 @@ def field(items, *args):
 
 
 def num1():
-    print('\nЗадача №1')
+    print('Задача №1')
 
     goods = [
         {'title': 'Ковер', 'price': 2000, 'color': 'green'},

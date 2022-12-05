@@ -10,7 +10,6 @@ def isNumber(s):
 
 
 def getCoef(output):
-    exText = 'Попробуйте ввести заново:'
     print(output)
     curr = input()
     if isNumber(curr):
@@ -18,7 +17,7 @@ def getCoef(output):
     else:
         flag = False
         while not flag:
-            print(exText, end=' ')
+            print('Попробуйте ввести заново:', end=' ')
             curr = input()
             if isNumber(curr):
                 return float(curr)
