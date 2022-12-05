@@ -48,7 +48,7 @@ def f3(arg) -> list:
 
 @print_result
 def f4(arg) -> list:
-    return list(zip(arg, ['зарплата ' + str(el) + ' руб.' for el in get_random(len(arg), 100000, 200000)]))
+    return dict(zip(arg, ['зарплата ' + str(el) + ' руб.' for el in get_random(len(arg), 100000, 200000)]))
 
 def num7():
     with cm_timer_1():
