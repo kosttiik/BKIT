@@ -1,61 +1,86 @@
+import sys
 import math
 
 
-def isNumber(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False
+def getNumbersFromConsole():
+    A, B, C = 0, 0, 0
+    while True:
+        try:
+            A, B, C = map(float, input().split(' '))
+        except:
+            print('Error occured while input. Try again.')
+            continue
+        break
+    return A, B, C
 
 
-def getCoef(output):
-    print(output)
-    curr = input()
-    if isNumber(curr):
-        return float(curr)
-    else:
-        flag = False
-        while not flag:
-            print('Попробуйте ввести заново:', end=' ')
-            curr = input()
-            if isNumber(curr):
-                return float(curr)
+def getNumbersFromArguments():
+    result = []
+    for i in range(1, 4):
+        try:
+            result.append(float(sys.argv[i]))
+        except:
+            return []
+    return result
 
 
-def getRoots(a, b, c):
-    roots = []
-    flag = True
-    D = pow(b, 2) - 4 * a * c
-    if a == 0:
-        return 'Не является биквадратным.'
-    if flag:
-        if D == 0.0:
-            if (-b / (2 * a)) >= 0:
-                roots.append(math.sqrt((-b / (2 * a))))
-                roots.append(-math.sqrt((-b / (2 * a))))
-        elif D > 0:
-            firstRoot = (-b - math.sqrt(D)) / (2 * a)
-            secondRoot = (-b + math.sqrt(D)) / (2 * a)
-            if secondRoot >= 0:
-                roots.append(math.sqrt(secondRoot))
-                roots.append(-math.sqrt(secondRoot))
-            if firstRoot >= 0:
-                roots.append(-math.sqrt(firstRoot))
-                roots.append(math.sqrt(firstRoot))
-        if len(roots) == 0:
-            return 'Нет корней.'
+def getEquationRoots(A, B, C):
+    D = B * B - 4 * A * C
+    if A == 0:
+        if B == 0:
+            return []
         else:
-            return roots
+            return [-math.sqrt(math.abs(-C / B)), math.sqrt(math.abs(-C / B))]
+    if D < 0:
+        return []
+    elif D == 0:
+        try:
+            X1 = -math.sqrt((-B) / (2 * A))
+            X2 = math.sqrt((-B) / (2 * A))
+        except:
+            return []
+        return list(set([X1, X2]))
+    else:
+        result = []
+        firstPair = True
+        secondPair = True
+        try:
+            X1 = -math.sqrt((-B + math.sqrt(D)) / (2 * A))
+            X2 = math.sqrt((-B + math.sqrt(D)) / (2 * A))
+        except:
+            firstPair = False
+        try:
+            X3 = -math.sqrt((-B - math.sqrt(D)) / (2 * A))
+            X4 = math.sqrt((-B - math.sqrt(D)) / (2 * A))
+        except:
+            secondPair = False
+
+        if firstPair:
+            result.append(X1)
+            result.append(X2)
+        if secondPair:
+            result.append(X3)
+            result.append(X4)
+        return list(set(result))
 
 
 def main():
-    a = getCoef('Введите коэффициент А:')
-    b = getCoef('Введите коэффициент B:')
-    c = getCoef('Введите коэффициент C:')
-    roots = getRoots(a, b, c)
-    print(roots)
+    numbers = getNumbersFromArguments()
+    if len(numbers) == 0:
+        print('No numbers in arguments found.')
+        print('Please input numbers via console:')
+        numbers = getNumbersFromConsole()
+    roots = getEquationRoots(numbers[0], numbers[1], numbers[2])
+    rootsAmount = len(roots)
+    if rootsAmount == 0:
+        print('No real solutions')
+    elif rootsAmount == 1:
+        print('The only solution is: ' + str(roots[0]))
+    else:
+        print('The roots are:')
+        for i in range(len(roots)):
+            print('X' + str(i + 1) + ' = ' + str(roots[i]))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
